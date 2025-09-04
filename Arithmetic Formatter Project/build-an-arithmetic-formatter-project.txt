@@ -1,0 +1,60 @@
+** start of main.py **
+
+def arithmetic_arranger(problems, solve=False):
+    if len(problems) > 5:
+        return "Error: Too many problems."
+
+    first_operands = []
+    second_operands = []
+    operators = []
+    results = []
+
+    for problem in problems:
+        parts = problem.split()
+        if len(parts) != 3:
+            return "Error: Invalid problem format."
+        
+        first_operand, operator, second_operand = parts
+
+        if operator not in ['+', '-']:
+            return "Error: Operator must be '+' or '-'."
+
+        if not first_operand.isdigit() or not second_operand.isdigit():
+            return "Error: Numbers must only contain digits."
+
+        if len(first_operand) > 4 or len(second_operand) > 4:
+            return "Error: Numbers cannot be more than four digits."
+
+        # Store parts for formatting
+        first_operands.append(first_operand)
+        second_operands.append(second_operand)
+        operators.append(operator)
+        
+        # Compute result if solve=True
+        if solve:
+            if operator == '+':
+                results.append(str(int(first_operand) + int(second_operand)))
+            elif operator == '-':
+                results.append(str(int(first_operand) - int(second_operand)))
+
+    # Formatting
+    top_row = ""
+    bottom_row = ""
+    dashes = ""
+    result_row = ""
+
+    for i in range(len(problems)):
+        width = max(len(first_operands[i]), len(second_operands[i])) + 2
+        top_row += first_operands[i].rjust(width) + "    "
+        bottom_row += operators[i] + " " + second_operands[i].rjust(width - 2) + "    "
+        dashes += "-" * width + "    "
+        if solve:
+            result_row += results[i].rjust(width) + "    "
+
+    if solve:
+        return f"{top_row.rstrip()}\n{bottom_row.rstrip()}\n{dashes.rstrip()}\n{result_row.rstrip()}"
+    else:
+        return f"{top_row.rstrip()}\n{bottom_row.rstrip()}\n{dashes.rstrip()}"
+
+** end of main.py **
+
